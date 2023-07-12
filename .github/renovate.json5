@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":enablePreCommit",
+    ":automergeDigest",
+    ":automergeBranch",
+    "github>arthurgeek/vaultwarden-fly-template//.github/renovate/autoMerge.json5",
+    "github>arthurgeek/vaultwarden-fly-template//.github/renovate/commitMessage.json5",
+    "github>arthurgeek/vaultwarden-fly-template//.github/renovate/labels.json5",
+    "github>arthurgeek/vaultwarden-fly-template//.github/renovate/semanticCommits.json5",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "schedule": ["every saturday"],
+  "pre-commit": {
+    "enabled": true
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\sARG .*?_VERSION=(?<currentValue>v.*)\\s"
+      ]
+    }
+  ]
+}
