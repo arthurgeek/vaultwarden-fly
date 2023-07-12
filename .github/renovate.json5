@@ -29,6 +29,12 @@
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\sARG .*?_VERSION=(?<currentValue>v.*)\\s"
       ]
+    },
+    {
+      "fileMatch": ["^\\.github\\/workflows\\/fly-deploy\\.yaml$"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\sversion:\\s(?<currentValue>.*)\\s"
+      ]
     }
   ]
 }
