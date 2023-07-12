@@ -1,0 +1,34 @@
+name: Deploy to Fly
+
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - main
+    paths:
+      - Dockerfile
+      - fly.toml
+      - config/**
+      - scripts/**
+
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          version: 0.1.54
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          # renovate: datasource=github-releases depName=go-task/task
+          version: 3.27.1
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy app
+        run: flyctl deploy --remote-only -a $FLY_APP
+        env:
+          FLY_APP: ${{ secrets.FLY_APP }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
